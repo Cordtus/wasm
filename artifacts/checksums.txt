@@ -1,0 +1,1 @@
+9e25c7a28d019b74ef931b2eb04f50e11982c2b531811405bec54ccae91a52b3  sei_evm_static_call.wasm
