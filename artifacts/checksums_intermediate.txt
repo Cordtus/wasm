@@ -1,1 +1,0 @@
-b9804b15f6a0e26072b6560d978ffffc0f2fffc045e906cd38a8c33a8c85b2e4  .//target/wasm32-unknown-unknown/release/sei_evm_static_call.wasm
