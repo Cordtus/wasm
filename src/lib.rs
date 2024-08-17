@@ -1,7 +1,7 @@
 use cosmwasm_std::{
   entry_point, to_json_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
 };
-use sei_cosmwasm::{SeiQueryWrapper, SeiQuerier};
+use sei_cosmwasm::{SeiQueryWrapper, SeiQuerier, SeiMsg};
 
 pub mod msg;
 use msg::{ExecuteMsg, InstantiateMsg, QueryMsg, StaticCallResponse};
@@ -12,8 +12,8 @@ pub fn instantiate(
   _env: Env,
   _info: MessageInfo,
   _msg: InstantiateMsg,
-) -> StdResult<Response> {
-  Ok(Response::default())
+) -> StdResult<Response<SeiMsg>> {
+  Ok(Response::new())
 }
 
 #[entry_point]
@@ -21,9 +21,16 @@ pub fn execute(
   _deps: DepsMut,
   _env: Env,
   _info: MessageInfo,
-  _msg: ExecuteMsg,
-) -> StdResult<Response> {
-  Ok(Response::default())
+  msg: ExecuteMsg,
+) -> StdResult<Response<SeiMsg>> {
+  match msg {
+      ExecuteMsg::StaticCall { value, to, data } => execute_static_call(value, to, data),
+  }
+}
+
+fn execute_static_call(value: cosmwasm_std::Uint128, to: String, data: String) -> StdResult<Response<SeiMsg>> {
+  let call_evm = SeiMsg::CallEvm { value, to, data };
+  Ok(Response::new().add_message(call_evm))
 }
 
 #[entry_point]

@@ -1,18 +1,22 @@
-use serde::{Deserialize, Serialize};
-use cosmwasm_std::Binary;
+use cosmwasm_std::{Binary, Uint128};
+use cosmwasm_schema::{cw_serde, QueryResponses};
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[cw_serde]
 pub struct InstantiateMsg {}
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
-pub enum ExecuteMsg {}
+#[cw_serde]
+pub enum ExecuteMsg {
+    StaticCall { value: Uint128, to: String, data: String },
+}
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[cw_serde]
+#[derive(QueryResponses)]
 pub enum QueryMsg {
+    #[returns(StaticCallResponse)]
     StaticCall { data: String, to: String },
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[cw_serde]
 pub struct StaticCallResponse {
     pub data: Binary,
 }
